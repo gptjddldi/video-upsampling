@@ -1,0 +1,10 @@
+비디오를 입력한 매개변수에 따라 분할한다
+분할된 비디오 각각에 프로세스를 만들어 줘 각 프로세스가 이미지 업 셈플링을 하는 코드
+
+
+=사용법=
+
+코끼리_480_270.mp4 파일을 4등분하고 크기는 기존 크기 그대로 사용하려는 경우 다음과 같이 cmd에 입력해 사용할 수 있다
+
+python multi_process_split_video_up_sampling.py --video_name 코끼리_480_270.mp4 --partial_count 4 --scale_factor 1
+

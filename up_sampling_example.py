@@ -4,6 +4,7 @@ from multiprocessing import Pool, cpu_count
 import time
 import cv2
 import numpy as np
+from upsample_gpu import UpsampleGPU
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--image_name', type=str, default='cat')
@@ -155,20 +156,18 @@ def main(args):
     source_path = f'{args.image_name}.png'
     source = cv2.imread(source_path)
     
-    # start = time.time()
-    # upsample_bilinear(source, args.target_size)
-    # print(f'origin code elapsed time: {time.time() - start:.4f})')
-
-    print("your max cpu count: ", cpu_count())
     for i in [1,2,4,8]:
         start = time.time()
         upsampler = Upsample(args.target_size, i)
         ret = upsampler.process_upsample(source)
         cv2.imwrite(f'{args.image_name}_bilinear{i}.png', ret)
         print(f'num_processes: {i}, elapsed time: {time.time() - start:.4f}')
-
-    # upsampler = Upsample(args.target_size, 4)
-    # cv2.imwrite(f'{args.image_name}_bilinear.png', upsampler.process_upsample(source))
+    
+    gpu_sampler = UpsampleGPU(args.target_size)
+    start = time.time()
+    ret = gpu_sampler.process_upsample(source)
+    cv2.imwrite(f'{args.image_name}_bilinear_gpu.png', ret)
+    print(f'GPU, elapsed time: {time.time() - start:.4f}')
 
 if __name__ == "__main__":
     main(args)

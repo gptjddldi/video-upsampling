@@ -4,7 +4,7 @@
 
 =사용법=
 
-코끼리_480_270.mp4 파일을 4등분하고 크기는 기존 크기 그대로 사용하려는 경우 다음과 같이 cmd에 입력해 사용할 수 있다
+코끼리_480_270.mp4 파일을 2등분하고 크기는 2배로 실행하려는 경우 다음과 같이 cmd에 입력해 사용할 수 있다
 
-python multi_process_split_video_up_sampling.py --video_name 코끼리_480_270.mp4 --partial_count 4 --scale_factor 1
+python .\multi_process_split_video_up_sampling.py --video_name .\코끼리_480_270.mp4 --partial_count 2 --scale_factor 2
 

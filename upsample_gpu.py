@@ -17,7 +17,7 @@ class UpsampleGPU:
     def _build_program(self):
         """OpenCL 커널 프로그램 빌드"""
         kernel_code = """
-        __kernel void upsample(
+        __kernel void bilinear_upsample(
             __global const float* source,
             __global const float* padded_source,
             __global float* target,
@@ -109,7 +109,7 @@ class UpsampleGPU:
         target_buf = cl.Buffer(self.context, cl.mem_flags.WRITE_ONLY, target.nbytes)
         
         # 커널 실행
-        kernel = self.program.upsample
+        kernel = self.program.bilinear_upsample
         kernel.set_args(
             source_buf, padded_buf, target_buf,
             np.int32(old_h), np.int32(old_w),

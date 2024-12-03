@@ -8,7 +8,7 @@ from multiprocessing import Process
 parser = argparse.ArgumentParser()
 parser.add_argument('--video_name', type=str)
 parser.add_argument('--partial_count', type=int, default=4)
-parser.add_argument('--scale_factor', type=int, default=1)
+parser.add_argument('--scale_factor', type=int, default=2)
 args = parser.parse_args()
 
 #이미지의 크기를 바꾼다.

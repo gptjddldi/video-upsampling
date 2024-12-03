@@ -6,8 +6,17 @@ import multiprocessing as mp
 
 import multi_process_split_video_up_sampling as my_split_video
 
+def resize_frame(frame, scale_factor=4, interpolation=cv2.INTER_LANCZOS4):
+    height, width = frame.shape[:2]
+    new_width = int(width * scale_factor)
+    new_height = int(height * scale_factor)
+
+    # 프레임 크기 조정 (리사이징)
+    resized_frame = cv2.resize(frame, (new_width, new_height), interpolation=interpolation)
+    return resized_frame
+
 def enhance_frame_quality_0(index, frame, scale, result_dict):
-    resized = my_split_video.resize_frame(frame, scale_factor=scale, interpolation=cv2.INTER_CUBIC)
+    resized = resize_frame(frame, scale_factor=scale, interpolation=cv2.INTER_CUBIC)
     sharpening_kernel = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]])
     sharpened_frame = cv2.filter2D(resized, -1, sharpening_kernel)
     enhanced_frame = cv2.bilateralFilter(sharpened_frame, d=9, sigmaColor=75, sigmaSpace=75)

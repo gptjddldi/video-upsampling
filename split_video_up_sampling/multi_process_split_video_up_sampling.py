@@ -64,7 +64,7 @@ def upscale_frame(frame, scale_factor=2):
     resized_frame = cv2.resize(frame, (new_width, new_height), interpolation=cv2.INTER_CUBIC)
     return resized_frame
 
-def video_upscale(video_name, start_frame, end_frame, segment_index, new_width, new_height):
+def partial_video_upscale(video_name, start_frame, end_frame, segment_index, new_width, new_height):
     cap = cv2.VideoCapture(video_name)
 
     if not cap.isOpened():
@@ -111,7 +111,7 @@ def main(args):
         start_frame = r * segment_frames
         # 마지막 분할은 마지막 프레임 까지 읽도록 조건을 추가
         end_frame = (r + 1) * segment_frames if r < args.partial_count - 1 else total_frames
-        p = Process(target=video_upscale, args=(args.video_name, start_frame, end_frame, r + 0, 
+        p = Process(target=partial_video_upscale, args=(args.video_name, start_frame, end_frame, r + 0, 
                                               int(cap.get(cv2.CAP_PROP_FRAME_WIDTH) * args.scale_factor),
                                               int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT) * args.scale_factor)))
         list_of_procs.append(p)
@@ -128,9 +128,7 @@ def main(args):
     fps = int(cap.get(cv2.CAP_PROP_FPS)) 
     new_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH) * args.scale_factor) 
     new_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT) * args.scale_factor)
-    out = cv2.VideoWriter(f'output_enhanced.mp4', fourcc, fps, 
-                          (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH) * args.scale_factor), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT) * args.scale_factor)))
-
+    out = cv2.VideoWriter(f'output.mp4', fourcc, fps, (new_width, new_height))
     # 분할한 영상을 다시 하나로 합침
     start_time = time.time()
     for r in range(args.partial_count):

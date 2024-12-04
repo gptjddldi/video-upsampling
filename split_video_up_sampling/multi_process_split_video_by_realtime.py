@@ -42,16 +42,17 @@ def main(args):
     lock = mp.Lock()
     manager = mp.Manager()
     result_dict = manager.dict()
-
+    
     print("시작")
     start_time = time.time()
     temp = False
-    frame_count = 0
 
     pool = mp.Pool(args.process_count)
 
     while not temp:
         tasks = []
+        
+        frame_count = 0
         for i in range(args.process_count):
             ret, frame = read_frame(cap, lock)
             if not ret:
@@ -65,7 +66,6 @@ def main(args):
         for i in range(frame_count, frame_count + len(tasks)):
             out.write(result_dict[i])
 
-        frame_count += len(tasks)
 
     end_time = time.time()
     print("완료")

@@ -5,6 +5,8 @@ import time
 import multiprocessing as mp
 
 import multi_process_split_video_up_sampling as my_split_video
+import upsample
+import upsample_gpu
 
 def resize_frame(frame, scale_factor=4, interpolation=cv2.INTER_LANCZOS4):
     height, width = frame.shape[:2]

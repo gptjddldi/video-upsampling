@@ -5,6 +5,9 @@ import time
 import matplotlib.pyplot as plt
 from multiprocessing import Process
 
+import upsample
+import upsample_gpu
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--video_name', type=str)
 parser.add_argument('--partial_count', type=int, default=4)
